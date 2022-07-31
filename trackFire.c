@@ -17,7 +17,7 @@ The large geographic area you are watching is a rectangle with a certain length 
 [ ][ ][ ][ ][ ][ ]   =
 [ ][ ][ ][ ][ ][ ]   9
 [ ][ ][ ][ ][ ][ ]   |
-Because your program will be used for a variety of geographic areas (each with its own length and width) your program needs to dynamically allocate the memory for the number of zones it is to handle (vertically and horizontally). 
+Because your program will be used for a variety of geographic areas (each with its own length and width) your program needs to dynamically allocate the memory for the number of zones it is to handle (vertically and horizontally).
 
 To do so, you must use the two following functions without changing the code in them:
 
@@ -29,7 +29,7 @@ int * allocateIntArray(int num){
     int * ptr = (int *) malloc(num * sizeof(int));
     return ptr;
 }
-The function allocateIntArray() will be used to allocate the space required to store the average temperatures in one row of zones, that is, an array of integers. The function therefore returns a pointer to such an array of integers. 
+The function allocateIntArray() will be used to allocate the space required to store the average temperatures in one row of zones, that is, an array of integers. The function therefore returns a pointer to such an array of integers.
 
 The function allocateIntStarArray() will be used to allocate an array of pointers, each of which will store a pointer to a row of integers (temperatures of zones). That is, the function returns a pointer to an array of pointers. Each cell of this array will point to an array of integers containing the temperature values for the zones.
 
@@ -75,20 +75,22 @@ int main(void) {
     int width = 0;
     int ** intStarArray;
     int * intArray;
-    int i;
-    int j;
+
     
     scanf("%d", &length);
     scanf("%d", &width);
     intStarArray = allocateIntStarArray(width);
     // input
-    for (i = 0; i < width; i++) {
-    intArray = allocateIntArray(length);
-        for (j = 0; j < length; j++) {
+    for (int i = 0; i < width; i++) {
+        intArray = allocateIntArray(length);
+        for (int j = 0; j < length; j++) {
             scanf("%d", &intArray[j]);
         }
         intStarArray[i] = &intArray[0];
-        for (j = 0; j < length; j++) {
+        free(intArray);
+    }
+    for (int i = 0; i < width; i++) {
+        for (int j = 0; i < length; j++) {
             if (intStarArray[i][j] > 1000) {
                 printf("[X]");
             } else if (intStarArray[i][j] <= 1000 && intStarArray[i][j] >= 100) {
@@ -98,7 +100,6 @@ int main(void) {
             }
         }
         printf("\n");
-        free(intArray);
     }
     free(intStarArray);
     return 0;
